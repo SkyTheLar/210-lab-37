@@ -29,11 +29,17 @@ int main() {
     	int bucket = gen_hash_index(temp);
     	//see if bucket exists
     	auto it = hash_table.find(bucket);
-    	if (it = hash_table.end()) { //bucket doesn't exist
-
+    	if (it == hash_table.end()) { //bucket doesn't exist
+    		//make list and insert new pair
+    		list<string> tList = {temp};
+    		hash_table.insert(make_pair(bucket, tList));
     	}
-    	else {
-
+    	else { //bucket does exist
+    		//start with current list, add new value
+    		list<string> tList = hash_table.at(bucket);
+    		tList.push_front(temp);
+    		// add new list to hash table
+    		hash_table.insert(make_pair(bucket, tList));
     	}
     }
 
@@ -41,6 +47,15 @@ int main() {
     in.close();
 
     //display first 100 entries
+    auto it = hash_table.begin();
+    for (int i = 0; i < 100; i++) {
+    	cout << "Bucket: " << it->first << endl;
+    	cout << "Keys:\n";
+    	for (string s : it->second) {
+    		cout << "\t" << s << endl;
+    	}
+    	cout << endl;
+    }
 
     return 0;
 }
