@@ -6,13 +6,14 @@ COMSC 210 | Lab 37 | Skylar Robinson | IDE Used: Eclipse
 
 #include <iostream>
 #include <fstream>
+#include <map>
+#include <list>
 using namespace std;
 
-int sum_ascii(string);
+int gen_hash_index(string);
 
 int main() {
-    int sum = 0;
-    string temp;
+    map<int, list<string>> hash_table;
     ifstream in;
 
     //open file
@@ -23,19 +24,28 @@ int main() {
     }
 
     //add ascii values in file
+    string temp;
     while (getline(in, temp)) {
-    	sum = sum + sum_ascii(temp);
+    	int bucket = gen_hash_index(temp);
+    	//see if bucket exists
+    	auto it = hash_table.find(bucket);
+    	if (it = hash_table.end()) { //bucket doesn't exist
+
+    	}
+    	else {
+
+    	}
     }
 
     //close file
     in.close();
 
-    cout << "Sum of ascii values: " << sum << endl;
+    //display first 100 entries
 
     return 0;
 }
 
-int sum_ascii(string s) {
+int gen_hash_index(string s) {
 	int sum = 0;
 	for (int i = 0; i < s.size(); i++) {
 		sum = sum + (int) s[i];
