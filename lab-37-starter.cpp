@@ -5,20 +5,32 @@ COMSC 210 | Lab 37 | Skylar Robinson | IDE Used: Eclipse
 ****************************************************/
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 int sum_ascii(string);
 
 int main() {
-    char a = 'A';
-    cout << a << endl;
-    cout << (int) a << endl;
-    int b = 66;
-    cout << b << endl;
-    cout << (char) b << endl;
-    
-    string test = "Hello";
-    cout << sum_ascii(test) << endl;
+    int sum = 0;
+    string temp;
+    ifstream in;
+
+    //open file
+    in.open("lab-37-data.txt");
+    if (!in) {
+    	cout << "File error.\n";
+    	return -1;
+    }
+
+    //add ascii values in file
+    while (getline(in, temp)) {
+    	sum = sum + sum_ascii(temp);
+    }
+
+    //close file
+    in.close();
+
+    cout << "Sum of ascii values: " << sum << endl;
 
     return 0;
 }
