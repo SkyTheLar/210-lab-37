@@ -58,8 +58,8 @@ int main() {
     	switch (choice) {
     	case 1: print100(hash_table); break;
     	case 2: searchKey(hash_table); break;
-    	case 3: break;
-    	case 4: break;
+    	case 3: delKey(hash_table); break;
+    	case 4: modKey(hash_table); break;
     	default: break;
     	}
     }
@@ -153,6 +153,40 @@ void modKey(map<int, list<string>>& t) {
 	cout << "Enter a key to modify: ";
 	getline(cin, toMod);
 	int bucket = gen_hash_index(toMod);
+	auto it = t.find(bucket);
+	if (it == t.end()) {
+		cout << "Key not found.\n";
+		return;
+	}
+	else {
+		auto lit = find(it->second.begin(), it->second.end(), toMod);
+		if (lit == it->second.end()) {
+			cout << "Key not found.\n";
+			return;
+		}
+		else {
+			it->second.erase(lit);
+			string temp;
+			cout << "Enter modified key: ";
+			getline(cin, temp);
+	    	int tBuc = gen_hash_index(temp);
+	    	//see if bucket exists
+	    	auto it = t.find(tBuc);
+	    	if (it == t.end()) { //bucket doesn't exist
+	    		//make list and insert new pair
+	    		list<string> tList = {temp};
+	    		t.insert(make_pair(tBuc, tList));
+	    	}
+	    	else { //bucket does exist
+	    		//start with current list, add new value
+	    		list<string> tList = t.at(tBuc);
+	    		tList.push_front(temp);
+	    		// add new list to hash table
+	    		t[bucket] = tList;
+	    	}
+	    	cout << "Key modified!\n";
+		}
+	}
 }
 /* 
 These targets are present in the dataset and can be used for testing:
