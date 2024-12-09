@@ -8,6 +8,7 @@ COMSC 210 | Lab 38 | Skylar Robinson | IDE Used: Eclipse
 #include <fstream>
 #include <map>
 #include <list>
+#include <algorithm>
 using namespace std;
 
 int gen_hash_index(string);
@@ -51,6 +52,18 @@ int main() {
     //close file
     in.close();
 
+    int choice;
+    while (choice != 5) {
+    	choice = menu();
+    	switch (choice) {
+    	case 1: print100(hash_table); break;
+    	case 2: searchKey(hash_table); break;
+    	case 3: break;
+    	case 4: break;
+    	default: break;
+    	}
+    }
+
     return 0;
 }
 
@@ -90,17 +103,57 @@ void print100(map<int, list<string>> t){
     }
 }
 
-void searchKey(map<int, list<string>>) {
+void searchKey(map<int, list<string>> t) {
 	string search;
 	cout << "Enter a key to search for: ";
 	getline(cin, search);
 	int bucket = gen_hash_index(search);
-
+	auto it = t.find(bucket);
+	if (it == t.end()) {
+		cout << "Key not found.\n";
+		return;
+	}
+	else {
+		auto lit = find(it->second.begin(), it->second.end(), search);
+		if (lit == it->second.end()) {
+			cout << "Key not found.\n";
+			return;
+		}
+		else {
+			cout << "Key found in hash table!\n";
+		}
+	}
 }
 
-void delKey(map<int, list<string>>&);
+void delKey(map<int, list<string>>& t) {
+	string toDel;
+	cout << "Enter a key to delete: ";
+	getline(cin, toDel);
+	int bucket = gen_hash_index(toDel);
+	auto it = t.find(bucket);
+	if (it == t.end()) {
+		cout << "Key not found.\n";
+		return;
+	}
+	else {
+		auto lit = find(it->second.begin(), it->second.end(), toDel);
+		if (lit == it->second.end()) {
+			cout << "Key not found.\n";
+			return;
+		}
+		else {
+			it->second.erase(lit);
+			cout << "Key deleted!\n";
+		}
+	}
+}
 
-void modKey(map<int, list<string>>&);
+void modKey(map<int, list<string>>& t) {
+	string toMod;
+	cout << "Enter a key to modify: ";
+	getline(cin, toMod);
+	int bucket = gen_hash_index(toMod);
+}
 /* 
 These targets are present in the dataset and can be used for testing:
 536B9DFC93AF
