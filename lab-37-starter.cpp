@@ -15,6 +15,7 @@ int gen_hash_index(string);
 int menu();
 void print100(map<int, list<string>>);
 void searchKey(map<int, list<string>>);
+void addKey(map<int, list<string>>&);
 void delKey(map<int, list<string>>&);
 void modKey(map<int, list<string>>&);
 
@@ -53,13 +54,14 @@ int main() {
     in.close();
 
     int choice;
-    while (choice != 5) {
+    while (choice != 6) {
     	choice = menu();
     	switch (choice) {
     	case 1: print100(hash_table); break;
     	case 2: searchKey(hash_table); break;
-    	case 3: delKey(hash_table); break;
-    	case 4: modKey(hash_table); break;
+    	case 3: addKey(hash_table); break;
+    	case 4: delKey(hash_table); break;
+    	case 5: modKey(hash_table); break;
     	default: break;
     	}
     }
@@ -80,9 +82,10 @@ int menu() {
 	cout << "Hash Table Options:\n"
 		 << "[1] Print the first 100 entries.\n"
 		 << "[2] Search for a key.\n"
-		 << "[3] Remove a key.\n"
-		 << "[4] Modify a key.\n"
-		 << "[5] Exit.\n"
+		 << "[3] Add a key.\n"
+		 << "[4] Remove a key.\n"
+		 << "[5] Modify a key.\n"
+		 << "[6] Exit.\n"
 		 << "Enter a choice by number-> ";
 	cin >> choice;
 	cin.ignore();
@@ -125,6 +128,27 @@ void searchKey(map<int, list<string>> t) {
 	}
 }
 
+void addKey(map<int, list<string>>& t) {
+	string temp;
+	cout << "Enter a key to add: ";
+	getline(cin, temp);
+	int bucket = gen_hash_index(temp);
+	//see if bucket exists
+	auto it = t.find(bucket);
+	if (it == t.end()) { //bucket doesn't exist
+		//make list and insert new pair
+		list<string> tList = {temp};
+		t.insert(make_pair(bucket, tList));
+	}
+	else { //bucket does exist
+		//start with current list, add new value
+		list<string> tList = t.at(bucket);
+		tList.push_front(temp);
+		// add new list to hash table
+		t[bucket] = tList;
+	}
+	cout << "Key added!\n";
+}
 void delKey(map<int, list<string>>& t) {
 	string toDel;
 	cout << "Enter a key to delete: ";
@@ -182,7 +206,7 @@ void modKey(map<int, list<string>>& t) {
 	    		list<string> tList = t.at(tBuc);
 	    		tList.push_front(temp);
 	    		// add new list to hash table
-	    		t[bucket] = tList;
+	    		t[tBuc] = tList;
 	    	}
 	    	cout << "Key modified!\n";
 		}
