@@ -39,8 +39,7 @@ int main() {
     		list<string> tList = hash_table.at(bucket);
     		tList.push_front(temp);
     		// add new list to hash table
-    		hash_table.erase(bucket);
-    		hash_table.insert(make_pair(bucket, tList));
+    		hash_table[bucket] = tList;
     	}
     }
 
@@ -51,11 +50,11 @@ int main() {
     auto it = hash_table.begin();
     for (int i = 0; i < 100; i++) {
     	cout << "Bucket: " << it->first << endl;
-    	cout << "Key(s): ";
+    	cout << "Key(s):\n";
     	for (string s : it->second) {
-    		cout << s << " ";
+    		cout << "\t" << s << "\n";
     	}
-    	cout << "\n\n";
+    	cout << "\n";
     	it++;
     }
 
